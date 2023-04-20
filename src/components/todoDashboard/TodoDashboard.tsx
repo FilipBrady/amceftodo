@@ -7,7 +7,7 @@ const TodoDashboard = () => {
       <TodoList />
 
       <label htmlFor={`addTodoList`} className='btn'>
-        Add item
+        Add List
       </label>
 
       <input type='checkbox' id={`addTodoList`} className='modal-toggle' />

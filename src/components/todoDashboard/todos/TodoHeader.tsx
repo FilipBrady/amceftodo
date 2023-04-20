@@ -86,7 +86,7 @@ const TodoHeader = ({ todo }: Props) => {
       <div className='modal'>
         <div className='modal-box'>
           <h3 className='font-bold text-lg'>
-            Do you really want to delete this List{todo.id}?
+            Do you really want to delete this List?
           </h3>
           {/* <AddToDoItem todo={todo} /> */}
           <div className='modal-action justify-center'>

@@ -107,7 +107,7 @@ const Container = ({ children }: Props) => {
             todoItems: [
               ...todoList.todoItems,
               {
-                id: todoList.todoItems.length,
+                id: todoList.todoItems.length + 1,
                 itemTitle: newTodoItemTitle,
                 itemDescription: newTodoItemDescription,
                 completed: false,
