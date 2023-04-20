@@ -40,7 +40,7 @@ const Container = ({ children }: Props) => {
         {
           id: 1,
           itemTitle: 'item 1',
-          itemDescription: 'this is description',
+          itemDescription: 'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: false,
         },
         {
@@ -64,7 +64,7 @@ const Container = ({ children }: Props) => {
         {
           id: 1,
           itemTitle: 'item 1',
-          itemDescription: 'this is description 1',
+          itemDescription: 'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: true,
         },
         {
