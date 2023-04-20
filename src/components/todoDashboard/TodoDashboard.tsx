@@ -1,15 +1,10 @@
-import { useAppContainer } from '../container/Context';
 import AddToDoList from './addingTodos/AddTodoList';
 import TodoList from './todos/TodoList';
 
 const TodoDashboard = () => {
-  const { todoLists } = useAppContainer();
-
   return (
     <div className='text-center'>
-      {todoLists.map(todo => (
-        <TodoList key={todo.id} todo={todo} />
-      ))}
+      <TodoList />
 
       <label htmlFor={`addTodoList`} className='btn'>
         Add item
