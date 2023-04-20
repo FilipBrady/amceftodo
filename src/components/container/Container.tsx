@@ -19,6 +19,7 @@ export type AppState = {
   ) => void;
   switchComplete: (listId: number, todoItemId: number) => void;
   deleteList: (listId: number) => void;
+  editListTitle: (listId: number, editedTodoTitle: string) => void;
 };
 
 type Props = {
@@ -142,12 +143,29 @@ const Container = ({ children }: Props) => {
     });
   };
 
+  const handleEditTodoTitle = (listId: number, editedTodoTitle: string) => {
+    setTodos(prevTodos => {
+      return prevTodos.map(todoList => {
+        if (todoList.id === listId) {
+          console.log(todoList);
+          return {
+            ...todoList,
+            listTitle: editedTodoTitle,
+          };
+          
+        }
+        return todoList;
+      });
+    });
+  };
+
   const appState: AppState = {
     todos: todos,
     addTodoList: handleAddTodoList,
     addTodoItem: handleAddTodoItem,
     switchComplete: handleItemComplete,
     deleteList: handleListDelete,
+    editListTitle: handleEditTodoTitle,
   };
 
   return <Provider value={appState}>{children(appState)}</Provider>;
