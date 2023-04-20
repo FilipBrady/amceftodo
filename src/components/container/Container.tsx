@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Provider } from './Context';
 export type AppState = {
-  todos: {
+  todoLists: {
     id: number;
     listTitle: string;
     todoItems: {
@@ -20,13 +20,19 @@ export type AppState = {
   switchComplete: (listId: number, todoItemId: number) => void;
   deleteList: (listId: number) => void;
   editListTitle: (listId: number, editedTodoTitle: string) => void;
+  editTodoItem: (
+    listId: number,
+    itemId: number,
+    editedItemTitle: string,
+    editedItemDescription: string
+  ) => void;
 };
 
 type Props = {
   children: (props: AppState) => JSX.Element;
 };
 const Container = ({ children }: Props) => {
-  const [todos, setTodos] = useState([
+  const [todoLists, setTodoLists] = useState([
     {
       id: 1,
       listTitle: 'title 1',
@@ -78,10 +84,10 @@ const Container = ({ children }: Props) => {
   ]);
 
   const handleAddTodoList = (newListTitle: string) => {
-    setTodos(prevTodos => [
-      ...prevTodos,
+    setTodoLists(prevTodoLists => [
+      ...prevTodoLists,
       {
-        id: prevTodos.length + 1,
+        id: prevTodoLists.length + 1,
         listTitle: newListTitle,
         todoItems: [],
       },
@@ -93,8 +99,8 @@ const Container = ({ children }: Props) => {
     newTodoItemTitle: string,
     newTodoItemDescription: string
   ) => {
-    setTodos(prevTodos => {
-      return prevTodos.map(todoList => {
+    setTodoLists(prevTodoLists => {
+      return prevTodoLists.map(todoList => {
         if (todoList.id === listId) {
           return {
             ...todoList,
@@ -114,8 +120,8 @@ const Container = ({ children }: Props) => {
     });
   };
   const handleItemComplete = (listId: number, todoItemId: number) => {
-    setTodos(prevTodos => {
-      return prevTodos.map(todoList => {
+    setTodoLists(prevTodoLists => {
+      return prevTodoLists.map(todoList => {
         if (todoList.id === listId) {
           return {
             ...todoList,
@@ -136,36 +142,65 @@ const Container = ({ children }: Props) => {
   };
 
   const handleListDelete = (listId: number) => {
-    setTodos(prevTodos => {
-      return prevTodos.filter(todoList => {
+    setTodoLists(prevTodoLists => {
+      return prevTodoLists.filter(todoList => {
         return todoList.id !== listId;
       });
     });
   };
 
   const handleEditTodoTitle = (listId: number, editedTodoTitle: string) => {
-    setTodos(prevTodos => {
-      return prevTodos.map(todoList => {
+    setTodoLists(prevTodoLists => {
+      return prevTodoLists.map(todoList => {
         if (todoList.id === listId) {
-          console.log(todoList);
           return {
             ...todoList,
             listTitle: editedTodoTitle,
           };
-          
         }
         return todoList;
       });
     });
   };
 
+  const handleEditTodoItem = (
+    listId: number,
+    itemId: number,
+    editedItemTitle: string,
+    editedItemDescription: string
+  ) => {
+    setTodoLists(prevTodoLists => {
+      return prevTodoLists.map(todoList => {
+        if (todoList.id === listId) {
+          return {
+            ...todoList,
+            todoItems: todoList.todoItems.map(todoItem => {
+              if (todoItem.id === itemId) {
+                return {
+                  ...todoItem,
+                  itemTitle: editedItemTitle,
+                  itemDescription: editedItemDescription,
+                };
+              }
+
+              return todoItem;
+            }),
+          };
+        }
+
+        return todoList;
+      });
+    });
+  };
+
   const appState: AppState = {
-    todos: todos,
+    todoLists: todoLists,
     addTodoList: handleAddTodoList,
     addTodoItem: handleAddTodoItem,
     switchComplete: handleItemComplete,
     deleteList: handleListDelete,
     editListTitle: handleEditTodoTitle,
+    editTodoItem: handleEditTodoItem,
   };
 
   return <Provider value={appState}>{children(appState)}</Provider>;

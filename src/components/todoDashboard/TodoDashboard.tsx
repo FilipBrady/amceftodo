@@ -3,11 +3,11 @@ import AddToDoList from './addingTodos/AddTodoList';
 import TodoList from './todos/TodoList';
 
 const TodoDashboard = () => {
-  const { todos } = useAppContainer();
-  
+  const { todoLists } = useAppContainer();
+
   return (
     <div className='text-center'>
-      {todos.map(todo => (
+      {todoLists.map(todo => (
         <TodoList key={todo.id} todo={todo} />
       ))}
 
