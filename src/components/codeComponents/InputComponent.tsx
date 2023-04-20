@@ -39,7 +39,6 @@ export default function InputComponent({
         />
       </label>
       {errors.inputName?.type === 'required' && (
-        // <div>gg</div>
         <div className='alert alert-warning shadow-lg w-fit mt-0'>
           <div>
             <svg
@@ -58,7 +57,7 @@ export default function InputComponent({
             <span>{errors.inputName.message?.toString()}</span>
           </div>
         </div>
-      )}{' '}
+      )}
     </div>
   );
 }
