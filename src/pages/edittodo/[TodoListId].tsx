@@ -3,35 +3,37 @@ import { useAppContainer } from '@/components/container/Context';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import EditListItem from './EditListItem';
+import EditListTitle from './EditListTitle';
 
 const EditTodo = () => {
-  const { todos, editListTitle } = useAppContainer();
-  const [todoToEdit, setTodoToEdit] = useState<any>([]);
-  const router = useRouter();
-  const TodoListId: string | string[] | undefined = router.query.TodoListId;
-  const id = Array.isArray(TodoListId) ? TodoListId[0] : TodoListId || '';
+  const { todoLists, editListTitle } = useAppContainer();
+
   const [inputValue, setInputValue] = useState('');
   const [editOption, setEditOption] = useState('title');
+  const [todoToEdit, setTodoToEdit] = useState<any>([]);
+
+  const router = useRouter();
+
+  const TodoListId: string | string[] | undefined = router.query.TodoListId;
+
+  const id = Array.isArray(TodoListId) ? TodoListId[0] : TodoListId || '';
+
   useEffect(() => {
-    todos.map(todo => {
-      if (todo.id === parseInt(id)) {
-        setTodoToEdit(todo);
-      }
-    });
-  }, []);
+    if (todoLists) {
+      todoLists.map(todo => {
+        if (todo.id === Number(id)) {
+          setTodoToEdit(todo);
+        }
+      });
+    }
+  }, [todoLists]);
 
-  // console.log(todoToEdit.todoItems[0].itemTitle);
-   todoToEdit.todoItems.map((item: any) => {
-    console.log(item);
-  });
-
-  function handleInputSubmit(event: any) {
-    event.preventDefault();
-    editListTitle(parseInt(id), inputValue);
-    // console.log(inputValue);
-    setInputValue('');
-    // setInputValue(event.target.value);
-  }
+  // function handleInputSubmit(event: any) {
+  //   event.preventDefault();
+  //   editListTitle(Number(id), inputValue);
+  //   setInputValue('');
+  // }
 
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
@@ -65,43 +67,10 @@ const EditTodo = () => {
           List Item
         </button>
       </div>
-      {todoToEdit.listTitle}
       {editOption === 'title' ? (
-        <form
-          onSubmit={(event: any) => {
-            handleInputSubmit(event);
-          }}
-          className='text-center'
-        >
-          <InputComponent
-            inputName='Todo List Title'
-            currentTitle={todoToEdit.listTitle}
-            setInputValue={setInputValue}
-            inputValue={inputValue}
-          />
-          <button className='btn btn-success'>Submit</button>
-        </form>
+       <EditListTitle todoToEdit={todoToEdit} />
       ) : (
-        <form
-          onSubmit={(event: any) => {
-            handleInputSubmit(event);
-          }}
-          className='text-center'
-        >
-          <InputComponent
-            inputName='ItemTitle'
-            currentTitle={todoToEdit.listTitle}
-            setInputValue={setInputValue}
-            inputValue={inputValue}
-          />
-          <InputComponent
-            inputName='itemDescription'
-            currentTitle={todoToEdit.listTitle}
-            setInputValue={setInputValue}
-            inputValue={inputValue}
-          />
-          <button className='btn btn-success'>Submit</button>
-        </form>
+        <EditListItem todoToEdit={todoToEdit} />
       )}
     </main>
   );

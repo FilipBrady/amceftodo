@@ -20,12 +20,11 @@ export default function InputComponent({
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { addTodoItem } = useAppContainer();
 
   return (
     <div>
       <label className='label flex flex-col justify-start items-start'>
-        <span className='label-text -mb-1 ms-2 z-20'>Todo Title</span>
+        <span className='label-text -mb-1 ms-2 z-20'> {inputName}</span>
         <input
           value={inputValue}
           type='text'
