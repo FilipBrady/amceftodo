@@ -11,7 +11,11 @@ export type AppState = {
       completed: boolean;
     }[];
   }[];
-  addTodoList: (newListTitle: string) => void;
+  addTodoList: (
+    newListTitle: string,
+    newItemTitle: string,
+    newDescriptionTitle: string
+  ) => void;
   addTodoItem: (
     listId: number,
     newTodoItemTitle: string,
@@ -36,11 +40,13 @@ const Container = ({ children }: Props) => {
     {
       id: 1,
       listTitle: 'title 1',
+      topPriority: false,
       todoItems: [
         {
           id: 1,
           itemTitle: 'item 1',
-          itemDescription: 'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
+          itemDescription:
+            'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: false,
         },
         {
@@ -60,11 +66,13 @@ const Container = ({ children }: Props) => {
     {
       id: 2,
       listTitle: 'title 2',
+      topPriority: true,
       todoItems: [
         {
           id: 1,
           itemTitle: 'item 1',
-          itemDescription: 'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
+          itemDescription:
+            'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: true,
         },
         {
@@ -83,13 +91,24 @@ const Container = ({ children }: Props) => {
     },
   ]);
 
-  const handleAddTodoList = (newListTitle: string) => {
+  const handleAddTodoList = (
+    newListTitle: string,
+    newItemTitle: string,
+    newDescriptionTitle: string
+  ) => {
+    const newTodoItem = {
+      id: 1,
+      itemTitle: newItemTitle,
+      itemDescription: newDescriptionTitle,
+      completed: false,
+    };
     setTodoLists(prevTodoLists => [
       ...prevTodoLists,
       {
         id: prevTodoLists.length + 1,
         listTitle: newListTitle,
-        todoItems: [],
+        topPriority: false,
+        todoItems: [newTodoItem],
       },
     ]);
   };

@@ -12,12 +12,12 @@ const AddToDoList = () => {
     formState: { errors },
   } = useForm();
   const { addTodoList } = useAppContainer();
+  const [todoTitle, setTodoTitle] = useState('');
   const router = useRouter();
   const handleListCreating = async (data: any) => {
     console.log(data.title);
-    addTodoList(data.title);
+    addTodoList(data.title, data.itemTitle, data.itemDescription);
     router.push('/');
-
   };
 
   return (
@@ -27,7 +27,7 @@ const AddToDoList = () => {
         onSubmit={handleSubmit(data => handleListCreating(data))}
       >
         <label className='label flex flex-col justify-start items-start'>
-          <span className='label-text -mb-1 ms-2 z-20'>List Title</span>
+          <span className='label-text ms-2 z-20'>List Title</span>
           <input
             type='text'
             {...register('title', {
@@ -37,10 +37,10 @@ const AddToDoList = () => {
             aria-invalid={errors.title ? 'true' : 'false'}
             placeholder='Shopping list'
             className='input input-bordered input-info w-full max-w-xs'
+            onChange={title => setTodoTitle(title.target.value)}
           />
         </label>
         {errors.title?.type === 'required' && (
-          // <div>gg</div>
           <div className='alert alert-warning shadow-lg w-fit mt-0'>
             <div>
               <svg
@@ -80,6 +80,120 @@ const AddToDoList = () => {
             </div>
           </div>
         )}
+
+        {todoTitle.length >= 4 && (
+          <div>
+            <label className='label flex flex-col justify-start items-start'>
+              <span className='label-text  ms-2 z-20'>Item Title</span>
+              <input
+                type='text'
+                {...register('itemTitle', {
+                  required: 'Todo itemTitle is required',
+                  minLength: 4,
+                })}
+                aria-invalid={errors.itemTitle ? 'true' : 'false'}
+                placeholder='Bread'
+                className='input input-bordered input-info w-full max-w-xs'
+              />
+            </label>
+
+            {errors.itemTitle?.type === 'required' && (
+              <div className='alert alert-warning shadow-lg w-fit mt-0'>
+                <div>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='stroke-current flex-shrink-0 h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                    />
+                  </svg>
+                  <span>{errors.itemTitle.message?.toString()}</span>
+                </div>
+              </div>
+            )}
+            {errors.itemTitle?.type === 'minLength' && (
+              <div className='alert alert-warning shadow-lg w-fit my-1'>
+                <div>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='stroke-current flex-shrink-0 h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                    />
+                  </svg>
+                  <span>Minimum length is 4 letters</span>
+                </div>
+              </div>
+            )}
+
+            <label className='label flex flex-col justify-start items-start'>
+              <span className='label-text  ms-2 z-20'>Todo description</span>
+              <input
+                type='text'
+                {...register('itemDescription', {
+                  required: 'Todo description is required',
+                  minLength: 4,
+                })}
+                aria-invalid={errors.itemDescription ? 'true' : 'false'}
+                placeholder='Buy Bread!'
+                className='input input-bordered input-info w-full max-w-xs'
+              />
+            </label>
+            {errors.itemDescription?.type === 'required' && (
+              <div className='alert alert-warning shadow-lg w-fit mt-0'>
+                <div>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='stroke-current flex-shrink-0 h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                    />
+                  </svg>
+                  <span>{errors.itemDescription.message?.toString()}</span>
+                </div>
+              </div>
+            )}
+            {errors.itemDescription?.type === 'minLength' && (
+              <div className='alert alert-warning shadow-lg w-fit my-1'>
+                <div>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='stroke-current flex-shrink-0 h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                    />
+                  </svg>
+                  <span>Minimum length is 4 letters</span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         <button className='btn btn-wide  btn-success'>Add ToDo List</button>
       </form>
     </div>

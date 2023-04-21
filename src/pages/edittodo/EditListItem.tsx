@@ -1,4 +1,3 @@
-import InputComponent from '@/components/codeComponents/InputComponent';
 import { useAppContainer } from '@/components/container/Context';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -14,8 +13,6 @@ const EditListItem = ({ todoToEdit }: Props) => {
     formState: { errors },
   } = useForm();
   const router = useRouter();
-  const [newItemTitle, setNewItemTitle] = useState('');
-  const [newItemDescription, setNewItemDescription] = useState('');
   const [selectedItem, setSelectekItem] = useState(0);
   const { editTodoItem } = useAppContainer();
 
@@ -50,7 +47,7 @@ const EditListItem = ({ todoToEdit }: Props) => {
           </select>
         )}
         <label className='label flex flex-col justify-start items-start'>
-          <span className='label-text -mb-1 ms-2 z-20'> title</span>
+          <span className='label-text  ms-2 z-20'>New item title</span>
           <input
             type='text'
             {...register('title', {
@@ -58,7 +55,7 @@ const EditListItem = ({ todoToEdit }: Props) => {
               minLength: 4,
             })}
             aria-invalid={errors.title ? 'true' : 'false'}
-            placeholder='Helllo'
+            placeholder='New Item Title'
             className='input input-bordered input-info w-full max-w-xs'
           />
         </label>
@@ -104,7 +101,7 @@ const EditListItem = ({ todoToEdit }: Props) => {
           </div>
         )}
         <label className='label flex flex-col justify-start items-start'>
-          <span className='label-text -mb-1 ms-2 z-20'> itemDescriptiom</span>
+          <span className='label-text  ms-2 z-20'> new item description</span>
           <input
             type='text'
             {...register('itemDescriptiom', {
@@ -112,7 +109,7 @@ const EditListItem = ({ todoToEdit }: Props) => {
               minLength: 4,
             })}
             aria-invalid={errors.itemDescriptiom ? 'true' : 'false'}
-            placeholder='Helllo'
+            placeholder='New Item Description'
             className='input input-bordered input-info w-full max-w-xs'
           />
         </label>
