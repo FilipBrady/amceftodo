@@ -41,7 +41,7 @@ const AddToDoItem = ({ todo }: Props) => {
         onSubmit={handleSubmit(data => handleListCreating(data))}
       >
         <label className='label flex flex-col justify-start items-start'>
-          <span className='label-text -mb-1 ms-2 z-20'>Todo Title</span>
+          <span className='label-text  ms-2 z-20'>Todo Title</span>
           <input
             type='text'
             {...register('title', {
@@ -95,7 +95,7 @@ const AddToDoItem = ({ todo }: Props) => {
           </div>
         )}
         <label className='label flex flex-col justify-start items-start'>
-          <span className='label-text -mb-1 ms-2 z-20'>Todo description</span>
+          <span className='label-text  ms-2 z-20'>Todo description</span>
           <input
             type='text'
             {...register('itemDescription', {

@@ -27,7 +27,7 @@ const EditListTitle = ({ todoToEdit }: Props) => {
       className='text-center'
     >
       <label className='label flex flex-col justify-start items-start'>
-        <span className='label-text -mb-1 ms-2 z-20'> title</span>
+        <span className='label-text  ms-2 z-20'>New title</span>
         <input
           type='text'
           {...register('title', {
@@ -35,7 +35,7 @@ const EditListTitle = ({ todoToEdit }: Props) => {
             minLength: 4,
           })}
           aria-invalid={errors.title ? 'true' : 'false'}
-          placeholder='Helllo'
+          placeholder={todoToEdit.listTitle}
           className='input input-bordered input-info w-full max-w-xs'
         />
       </label>

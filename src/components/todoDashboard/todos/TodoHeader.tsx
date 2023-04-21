@@ -15,10 +15,16 @@ type Props = {
   };
 };
 const TodoHeader = ({ todo }: Props) => {
-  const { deleteList } = useAppContainer();
+  const { deleteList, todoLists } = useAppContainer();
+
   return (
     <div className='flex justify-between align-bottom'>
       <div className='text-xl font-bold'>{todo.listTitle}</div>
+      <div className='rating'>
+        <input type='radio' name='rating-1' className='mask mask-star' />
+      </div>
+      <div>
+      </div>
       <div>
         <Link
           href={`/edittodo/${todo.id}`}
