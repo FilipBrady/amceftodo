@@ -145,17 +145,25 @@ const UserProfileDashboard = () => {
             </svg>
           </div>
         </div>
-        <div>
+        {totalItems === completedItems ? (
           <div>
-            <span className='text-green-500 font-bold'>{completedItems}</span>/
-            <span className='text-red-600 font-bold '>{totalItems}</span> DONE
+          <div>You have completed ALL your tasks</div>
+          <div>🎉🎉🎉🎉</div>
           </div>
-          <progress
-            className='progress progress-success w-56'
-            value={completedItems}
-            max={totalItems}
-          ></progress>
-        </div>
+        ) : (
+          <div>
+            <div>
+              <span className='text-green-500 font-bold'>{completedItems}</span>
+              /<span className='text-red-600 font-bold '>{totalItems}</span>{' '}
+              DONE
+            </div>
+            <progress
+              className='progress progress-success w-56'
+              value={completedItems}
+              max={totalItems}
+            ></progress>
+          </div>
+        )}
 
         <div className='flex flex-col gap-2 justify-between align-baseline'>
           <label htmlFor={`addTodoList`} className='btn'>
