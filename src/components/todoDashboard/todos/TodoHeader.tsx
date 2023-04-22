@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 type Props = {
-  todo: {
+  todoList: {
     id: number;
     listTitle: string;
     todoItems: {
@@ -14,12 +14,12 @@ type Props = {
     }[];
   };
 };
-const TodoHeader = ({ todo }: Props) => {
-  const { deleteList, todoLists } = useAppContainer();
+const TodoHeader = ({ todoList }: Props) => {
+  const { deleteList } = useAppContainer();
 
   return (
     <div className='flex justify-between align-bottom'>
-      <div className='text-xl font-bold'>{todo.listTitle}</div>
+      <div className='text-xl font-bold'>{todoList.listTitle}</div>
       <div className='rating'>
         <input type='radio' name='rating-1' className='mask mask-star' />
       </div>
@@ -32,7 +32,7 @@ const TodoHeader = ({ todo }: Props) => {
           className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-32'
         >
           <li>
-            <Link href={`/edittodo/${todo.id}`}>
+            <Link href={`/edittodo/${todoList.id}`}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink'
@@ -66,7 +66,7 @@ const TodoHeader = ({ todo }: Props) => {
             </Link>
           </li>
           <li>
-            <label htmlFor={`deleteTodoList${todo.id}`}>
+            <label htmlFor={`deleteTodoList${todoList.id}`}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='20px'
@@ -92,7 +92,7 @@ const TodoHeader = ({ todo }: Props) => {
       </div>
       <input
         type='checkbox'
-        id={`deleteTodoList${todo.id}`}
+        id={`deleteTodoList${todoList.id}`}
         className='modal-toggle'
       />
       <div className='modal'>
@@ -100,15 +100,14 @@ const TodoHeader = ({ todo }: Props) => {
           <h3 className='font-bold text-lg'>
             Do you really want to delete this List?
           </h3>
-          {/* <AddToDoItem todo={todo} /> */}
           <div className='modal-action justify-center'>
             <label
-              onClick={() => deleteList(todo.id)}
+              onClick={() => deleteList(todoList.id)}
               className='btn btn-error'
             >
               Delete
             </label>
-            <label htmlFor={`deleteTodoList${todo.id}`} className='btn'>
+            <label htmlFor={`deleteTodoList${todoList.id}`} className='btn'>
               Close
             </label>
           </div>

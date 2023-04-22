@@ -3,6 +3,8 @@ import AddToDoItem from '../addingTodos/AddTodoItem';
 import TodoHeader from './TodoHeader';
 import TodoItem from './TodoItem';
 import { useAppContainer } from '@/components/container/Context';
+import TodoFilter from './components/TodoFilter';
+import TodoIndicator from './components/TodoIndicator';
 
 const TodoList = () => {
   const { todoLists } = useAppContainer();
@@ -48,86 +50,43 @@ const TodoList = () => {
 
   return (
     <div>
-      <div className='flex flex-col items-center'>
-        <div className='btn-group'>
-          <button
-            onClick={() => setFilter('all')}
-            className={filter === 'all' ? 'btn btn-active' : 'btn'}
-          >
-            All
-          </button>
-          <button
-            onClick={() => setFilter('completed')}
-            className={filter === 'completed' ? 'btn btn-active' : 'btn'}
-          >
-            Completed
-          </button>
-          <button
-            onClick={() => setFilter('inProgress')}
-            className={filter === 'inProgress' ? 'btn btn-active' : 'btn'}
-          >
-            In Progress
-          </button>
-        </div>
-        <div className='flex flex-row items-baseline'>
-          <input
-            type='text'
-            placeholder='Search in Titles'
-            className='input input-bordered input-info max-w-xs my-2'
-            onChange={text => setSearchTitle(text.target.value)}
-          />
-          <div className='form-control'>
-            <label className='label cursor-pointer'>
-              <span className='label-text me-1'>Title</span>
-              <input
-                type='checkbox'
-                className='toggle'
-                onChange={toggle => setSearchType(toggle.target.checked)}
-              />
-              <span className='label-text ms-1'>Item</span>
-            </label>
-          </div>
-        </div>
-      </div>
+      <TodoFilter
+        setFilter={setFilter}
+        filter={filter}
+        setSearchTitle={setSearchTitle}
+        setSearchType={setSearchType}
+      />
 
       <div className='flex flex-row flex-wrap justify-center items-start gap-4 my-2'>
-        {filteredData.map(todo => {
-          const totalItems = todo.todoItems.length;
-
-          const completedItems = todo.todoItems.filter(
-            (todoItem: any) => todoItem.completed
-          ).length;
+        {filteredData.map(todoList => {
           return (
             <div className='indicator'>
-              <span className='indicator-item h-6 indicator-center badge text-black border-none badge-ghost mt-1 shadow-lg font-semibold'>
-                <span className='text-green-500 font-bold'>
-                  {completedItems}
-                </span>
-                /<span className='text-red-600 font-bold '>{totalItems}</span>{' '}
-                DONE
-              </span>
+              <TodoIndicator todoList={todoList} />
               <div className='bg-white w-96 my-2 px-2 py-3 rounded-lg shadow-xl text-center'>
-                <TodoHeader key={todo.id} todo={todo} />
-                {todo.todoItems.map((todoItem: any) => (
+                <TodoHeader key={todoList.id} todoList={todoList} />
+                {todoList.todoItems.map((todoItem: any) => (
                   <div key={todoItem.id}>
-                    <TodoItem todoItem={todoItem} todo={todo} />
+                    <TodoItem todoItem={todoItem} todoList={todoList} />
                   </div>
                 ))}
-                <label htmlFor={`addTodoList${todo.id}`} className='btn'>
+                <label htmlFor={`addTodoList${todoList.id}`} className='btn'>
                   Add Todo Item
                 </label>
 
                 <input
                   type='checkbox'
-                  id={`addTodoList${todo.id}`}
+                  id={`addTodoList${todoList.id}`}
                   className='modal-toggle'
                 />
                 <div className='modal'>
                   <div className='modal-box'>
                     <h3 className='font-bold text-lg'>Add new Todo item.</h3>
-                    <AddToDoItem todo={todo} />
+                    <AddToDoItem todo={todoList} />
                     <div className='modal-action'>
-                      <label htmlFor={`addTodoList${todo.id}`} className='btn'>
+                      <label
+                        htmlFor={`addTodoList${todoList.id}`}
+                        className='btn'
+                      >
                         Close
                       </label>
                     </div>

@@ -15,12 +15,16 @@ export type AppState = {
   addTodoList: (
     newListTitle: string,
     newItemTitle: string,
-    newDescriptionTitle: string
+    newDescriptionTitle: string,
+    deadlineDate: string,
+    deadlineTime: string
   ) => void;
   addTodoItem: (
     listId: number,
     newTodoItemTitle: string,
-    newTodoItemDescription: string
+    newTodoItemDescription: string,
+    deadlineDate: string,
+    deadlineTime: string
   ) => void;
   switchComplete: (listId: number, todoItemId: number) => void;
   deleteList: (listId: number) => void;
@@ -50,21 +54,24 @@ const Container = ({ children }: Props) => {
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: false,
-          deadline: '2023-04-23',
+          deadlineDate: '2023-04-23',
+          deadlineTime: '22:15',
         },
         {
           id: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description',
           completed: false,
-          deadline: '',
+          deadlineDate: '2023-04-24',
+          deadlineTime: '20:10',
         },
         {
           id: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description',
           completed: true,
-          deadline: '',
+          deadlineDate: '2023-04-25',
+          deadlineTime: '8:23',
         },
       ],
     },
@@ -79,21 +86,24 @@ const Container = ({ children }: Props) => {
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: true,
-          deadline: '',
+          deadlineDate: '2023-04-26',
+          deadlineTime: '18:23',
         },
         {
           id: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description 2',
           completed: false,
-          deadline: '',
+          deadlineDate: '2023-04-23',
+          deadlineTime: '12:53',
         },
         {
           id: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description 3',
           completed: true,
-          deadline: '',
+          deadlineDate: '2023-04-25',
+          deadlineTime: '18:45',
         },
       ],
     },
@@ -102,14 +112,17 @@ const Container = ({ children }: Props) => {
   const handleAddTodoList = (
     newListTitle: string,
     newItemTitle: string,
-    newDescriptionTitle: string
+    newDescriptionTitle: string,
+    deadlineDate: string,
+    deadlineTime: string
   ) => {
     const newTodoItem = {
       id: 1,
       itemTitle: newItemTitle,
       itemDescription: newDescriptionTitle,
       completed: false,
-      deadline: '',
+      deadlineDate: deadlineDate,
+      deadlineTime: deadlineTime,
     };
     setTodoLists(prevTodoLists => [
       ...prevTodoLists,
@@ -125,7 +138,9 @@ const Container = ({ children }: Props) => {
   const handleAddTodoItem = (
     listId: number,
     newTodoItemTitle: string,
-    newTodoItemDescription: string
+    newTodoItemDescription: string,
+    deadlineDate: string,
+    deadlineTime: string
   ) => {
     setTodoLists(prevTodoLists => {
       return prevTodoLists.map(todoList => {
@@ -139,7 +154,8 @@ const Container = ({ children }: Props) => {
                 itemTitle: newTodoItemTitle,
                 itemDescription: newTodoItemDescription,
                 completed: false,
-                deadline: '',
+                deadlineDate: deadlineDate,
+                deadlineTime: deadlineTime,
               },
             ],
           };
