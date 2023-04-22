@@ -30,8 +30,8 @@ const AddToDoItem = ({ todo }: Props) => {
 
   const handleListCreating = async (data: any) => {
     console.log(data.title);
-    addTodoItem(todo.id, data.title, data.itemDescription);
-    router.push('/');
+    // addTodoItem(todo.id, data.title, data.itemDescription);
+    // router.push('/');
   };
 
   return (
@@ -43,7 +43,7 @@ const AddToDoItem = ({ todo }: Props) => {
         <label className='label flex flex-col justify-start items-start'>
           <span className='label-text  ms-2 z-20'>Todo Title</span>
           <input
-            type='text'
+            type='date'
             {...register('title', {
               required: 'Todo title is required',
               minLength: 4,
@@ -108,7 +108,6 @@ const AddToDoItem = ({ todo }: Props) => {
           />
         </label>
         {errors.itemDescription?.type === 'required' && (
-          // <div>gg</div>
           <div className='alert alert-warning shadow-lg w-fit mt-0'>
             <div>
               <svg

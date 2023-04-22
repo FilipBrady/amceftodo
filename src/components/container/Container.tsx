@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Provider } from './Context';
+import axios from 'axios';
 export type AppState = {
   todoLists: {
     id: number;
@@ -36,6 +37,7 @@ type Props = {
   children: (props: AppState) => JSX.Element;
 };
 const Container = ({ children }: Props) => {
+  const axios = require('axios');
   const [todoLists, setTodoLists] = useState([
     {
       id: 1,
@@ -48,18 +50,21 @@ const Container = ({ children }: Props) => {
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: false,
+          deadline: '2023-04-23',
         },
         {
           id: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description',
           completed: false,
+          deadline: '',
         },
         {
           id: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description',
           completed: true,
+          deadline: '',
         },
       ],
     },
@@ -74,18 +79,21 @@ const Container = ({ children }: Props) => {
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
           completed: true,
+          deadline: '',
         },
         {
           id: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description 2',
           completed: false,
+          deadline: '',
         },
         {
           id: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description 3',
           completed: true,
+          deadline: '',
         },
       ],
     },
@@ -101,6 +109,7 @@ const Container = ({ children }: Props) => {
       itemTitle: newItemTitle,
       itemDescription: newDescriptionTitle,
       completed: false,
+      deadline: '',
     };
     setTodoLists(prevTodoLists => [
       ...prevTodoLists,
@@ -130,6 +139,7 @@ const Container = ({ children }: Props) => {
                 itemTitle: newTodoItemTitle,
                 itemDescription: newTodoItemDescription,
                 completed: false,
+                deadline: '',
               },
             ],
           };

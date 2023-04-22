@@ -29,9 +29,7 @@ const UserProfileDashboard = () => {
 
   return (
     <div>
-      <div
-        className='bg-white w-10/12 mx-auto h-fit my-2 px-3 py-4 rounded-lg shadow-xl text-center flex sm:flex-row justify-between sm:items-end items-center mb-5 flex-col'
-      >
+      <div className='bg-white w-10/12 mx-auto h-fit my-2 px-3 py-4 rounded-lg shadow-xl text-center flex sm:flex-row justify-between sm:items-end items-center mb-5 flex-col'>
         <div className=' '>
           <div className='w-24 rounded-full'>
             <svg
@@ -153,7 +151,7 @@ const UserProfileDashboard = () => {
             <span className='text-red-600 font-bold '>{totalItems}</span> DONE
           </div>
           <progress
-            className='progress progress-info w-56'
+            className='progress progress-success w-56'
             value={completedItems}
             max={totalItems}
           ></progress>
