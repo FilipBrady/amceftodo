@@ -32,11 +32,7 @@ const EditListTitle = ({ todoToEdit }: Props) => {
             minLength: 4,
           })}
           aria-invalid={errors.title ? 'true' : 'false'}
-          placeholder={
-            todoToEdit.listTitle === undefined
-            ? 'Edit your list title'
-            : todoToEdit.listTitle
-          }
+          placeholder={'Edit your list title'}
           className='input input-bordered input-info w-full max-w-xs'
         />
       </label>
