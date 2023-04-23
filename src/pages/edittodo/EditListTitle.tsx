@@ -1,13 +1,10 @@
-import InputComponent from '@/components/codeComponents/InputComponent';
 import { useAppContainer } from '@/components/container/Context';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 type Props = {
   todoToEdit: any;
-  id: string
 };
-const EditListTitle = ({ todoToEdit,  id}: Props) => {
+const EditListTitle = ({ todoToEdit }: Props) => {
   const {
     register,
     handleSubmit,
@@ -17,7 +14,7 @@ const EditListTitle = ({ todoToEdit,  id}: Props) => {
 
   const { editListTitle } = useAppContainer();
   function handleInputSubmit(event: any) {
-    editListTitle(Number(id), event.title);
+    editListTitle(todoToEdit.id, event.title);
     router.push('/');
   }
 
@@ -35,7 +32,11 @@ const EditListTitle = ({ todoToEdit,  id}: Props) => {
             minLength: 4,
           })}
           aria-invalid={errors.title ? 'true' : 'false'}
-          placeholder={todoToEdit.listTitle}
+          placeholder={
+            todoToEdit.listTitle === undefined
+            ? 'Edit your list title'
+            : todoToEdit.listTitle
+          }
           className='input input-bordered input-info w-full max-w-xs'
         />
       </label>
@@ -81,16 +82,7 @@ const EditListTitle = ({ todoToEdit,  id}: Props) => {
         </div>
       )}
 
-      {/* <InputComponent
-        inputName='title'
-        currentTitle={todoToEdit.listTitle}
-        setInputValue={setNewTodoTitle}
-        inputValue={newTodoTitle}
-      /> */}
-
-      <button className='btn btn-success' onClick={() => console.log(errors)}>
-        Submit
-      </button>
+      <button className='btn btn-success'>Submit</button>
     </form>
   );
 };

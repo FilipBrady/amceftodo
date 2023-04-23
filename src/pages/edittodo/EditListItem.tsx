@@ -1,11 +1,11 @@
 import { useAppContainer } from '@/components/container/Context';
+import { todoList } from '@/components/data/todoList';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-type Props = {
-  todoToEdit: any;
-};
+type Props = { todoToEdit: todoList };
+
 const EditListItem = ({ todoToEdit }: Props) => {
   const {
     register,
@@ -15,7 +15,8 @@ const EditListItem = ({ todoToEdit }: Props) => {
   const router = useRouter();
   const [selectedItem, setSelectekItem] = useState(0);
   const { todoLists, editTodoItem } = useAppContainer();
-
+  const [selectedItemTitle, setSelectedItemTitle] = useState('');
+  const [selectedItemDescription, setSelectedItemDescription] = useState('');
   function handleInputSubmit(event: any) {
     editTodoItem(
       Number(router.query.TodoListId),
@@ -25,7 +26,14 @@ const EditListItem = ({ todoToEdit }: Props) => {
     );
     router.push('/');
   }
-  console.log(selectedItem);
+  useEffect(() => {
+    todoToEdit.todoItems.map((todoItem: any) => {
+      if (Number(todoItem.itemId) == Number(selectedItem)) {
+        setSelectedItemTitle(todoItem.itemTitle);
+        setSelectedItemDescription(todoItem.itemDescription);
+      }
+    });
+  }, [selectedItem]);
 
   return (
     <div>
@@ -59,7 +67,9 @@ const EditListItem = ({ todoToEdit }: Props) => {
               minLength: 4,
             })}
             aria-invalid={errors.title ? 'true' : 'false'}
-            placeholder='New Item Title'
+            placeholder={
+              selectedItem === 0 ? 'Edit your item title' : selectedItemTitle
+            }
             className='input input-bordered input-info w-full max-w-xs'
           />
         </label>
@@ -113,7 +123,11 @@ const EditListItem = ({ todoToEdit }: Props) => {
               minLength: 4,
             })}
             aria-invalid={errors.itemDescriptiom ? 'true' : 'false'}
-            placeholder='New Item Description'
+            placeholder={
+              selectedItem === 0
+                ? 'Edit your item description'
+                : selectedItemDescription
+            }
             className='input input-bordered input-info w-full max-w-xs'
           />
         </label>
@@ -158,18 +172,6 @@ const EditListItem = ({ todoToEdit }: Props) => {
             </div>
           </div>
         )}
-        {/* <InputComponent
-          inputName='ItemTitle'
-          currentTitle={todoToEdit.listTitle}
-          setInputValue={setNewItemTitle}
-          inputValue={newItemTitle}
-        />
-        <InputComponent
-          inputName='itemDescription'
-          currentTitle={todoToEdit.listTitle}
-          setInputValue={setNewItemDescription}
-          inputValue={newItemDescription}
-        /> */}
         <button className='btn btn-success'>Submit</button>
       </form>
     </div>

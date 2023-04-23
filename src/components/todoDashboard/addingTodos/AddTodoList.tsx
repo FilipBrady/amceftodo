@@ -1,5 +1,3 @@
-'use client';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useAppContainer } from '@/components/container/Context';
@@ -14,7 +12,7 @@ const AddToDoList = () => {
   const { addTodoList } = useAppContainer();
   const [todoTitle, setTodoTitle] = useState('');
   const router = useRouter();
-  const handleListCreating = async (data: any) => {
+  const handleListCreating = (data: any) => {
     addTodoList(
       data.title,
       data.itemTitle,
@@ -22,17 +20,16 @@ const AddToDoList = () => {
       data.date,
       data.time
     );
-    console.log(typeof data.time);
-    // router.push('/');
+    router.push('/');
   };
 
   return (
     <div>
       <form
-        className='flex flex-col items-center gap-2'
+        className='flex flex-col items-center'
         onSubmit={handleSubmit(data => handleListCreating(data))}
       >
-        <label className='label flex flex-col justify-start items-start'>
+        <label className='label flex flex-col justify-start items-start w-3/5'>
           <span className='label-text ms-2 z-20'>List Title</span>
           <input
             type='text'
@@ -88,13 +85,13 @@ const AddToDoList = () => {
         )}
 
         {todoTitle.length >= 4 && (
-          <div>
-            <label className='label flex flex-col justify-start items-start'>
+          <div className='w-full flex flex-col items-center'>
+            <label className='label flex flex-col justify-start items-start w-3/5'>
               <span className='label-text  ms-2 z-20'>Item Title</span>
               <input
                 type='text'
                 {...register('itemTitle', {
-                  required: 'Todo itemTitle is required',
+                  required: 'Item Title is required',
                   minLength: 4,
                 })}
                 aria-invalid={errors.itemTitle ? 'true' : 'false'}
@@ -144,17 +141,17 @@ const AddToDoList = () => {
               </div>
             )}
 
-            <label className='label flex flex-col justify-start items-start'>
-              <span className='label-text  ms-2 z-20'>Todo description</span>
-              <input
-                type='text'
+            <label className='label flex flex-col justify-start items-start w-3/5'>
+              <span className='label-text  ms-2 z-20'>Item description</span>
+              <textarea
+                rows={3}
                 {...register('itemDescription', {
-                  required: 'Todo description is required',
+                  required: 'Item description is required',
                   minLength: 4,
                 })}
                 aria-invalid={errors.itemDescription ? 'true' : 'false'}
                 placeholder='Buy Bread!'
-                className='input input-bordered input-info w-full max-w-xs'
+                className='textarea textarea-info w-full max-w-xs'
               />
             </label>
             {errors.itemDescription?.type === 'required' && (
@@ -197,7 +194,7 @@ const AddToDoList = () => {
                 </div>
               </div>
             )}
-            <label className='label flex flex-col justify-start items-start'>
+            <label className='label flex flex-col justify-start items-start w-3/5'>
               <span className='label-text ms-2 z-20'>Item Deadline</span>
               <input
                 type='date'
@@ -205,7 +202,6 @@ const AddToDoList = () => {
                   required: 'Item Deadline is required',
                 })}
                 aria-invalid={errors.date ? 'true' : 'false'}
-                placeholder='Shopping list'
                 className='input input-bordered input-info w-full max-w-xs'
               />
             </label>
@@ -229,14 +225,14 @@ const AddToDoList = () => {
                 </div>
               </div>
             )}
-            <label className='label flex flex-col justify-start items-start'>
+            <label className='label flex flex-col justify-start items-start w-3/5'>
               <span className='label-text ms-2 z-20'>Item Deadline TIme</span>
               <input
                 type='time'
                 {...register('time')}
                 aria-invalid={errors.time ? 'true' : 'false'}
-                placeholder='Shopping list'
                 className='input input-bordered input-info w-full max-w-xs'
+                defaultValue='00:00'
               />
             </label>
           </div>
