@@ -14,17 +14,19 @@ const EditListItem = ({ todoToEdit }: Props) => {
   } = useForm();
   const router = useRouter();
   const [selectedItem, setSelectekItem] = useState(0);
-  const { editTodoItem } = useAppContainer();
+  const { todoLists, editTodoItem } = useAppContainer();
 
   function handleInputSubmit(event: any) {
     editTodoItem(
-      todoToEdit.id,
+      Number(router.query.TodoListId),
       selectedItem,
       event.title,
       event.itemDescriptiom
     );
     router.push('/');
   }
+  console.log(selectedItem);
+
   return (
     <div>
       <form
@@ -33,19 +35,21 @@ const EditListItem = ({ todoToEdit }: Props) => {
         })}
         className='text-center'
       >
-        {todoToEdit && todoToEdit.todoItems && (
-          <select
-            className='select select-info w-full max-w-xs my-2'
-            onChange={option => setSelectekItem(Number(option.target.value))}
-          >
-            <option value={0}>Choose item to edit</option>
-            {todoToEdit.todoItems.map((item: any) => (
-              <option key={item.id} value={item.id}>
-                {item.itemTitle}
-              </option>
-            ))}
-          </select>
-        )}
+        <select
+          className='select select-info w-full max-w-xs my-2'
+          onChange={option => setSelectekItem(Number(option.target.value))}
+        >
+          <option value={0}>Choose item to edit</option>
+          {todoLists.map(todoList => {
+            if (Number(todoList.id) === Number(router.query.TodoListId)) {
+              return todoList.todoItems.map((item: any) => (
+                <option key={item.itemId} value={item.itemId}>
+                  {item.itemTitle}
+                </option>
+              ));
+            }
+          })}
+        </select>
         <label className='label flex flex-col justify-start items-start'>
           <span className='label-text  ms-2 z-20'>New item title</span>
           <input

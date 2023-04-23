@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Provider } from './Context';
 import axios from 'axios';
 export type AppState = {
@@ -29,7 +29,11 @@ export type AppState = {
     deadlineDate: string,
     deadlineTime: string
   ) => void;
-  switchComplete: (listId: number, todoItemId: number) => void;
+  switchComplete: (
+    listId: number,
+    todoItemId: number,
+    itemCompleted: boolean
+  ) => void;
   deleteList: (listId: number) => void;
   editListTitle: (listId: number, editedTodoTitle: string) => void;
   editTodoItem: (
@@ -38,89 +42,96 @@ export type AppState = {
     editedItemTitle: string,
     editedItemDescription: string
   ) => void;
-  changeListPriority: (listId: number) => void;
+  changeListPriority: (listId: number, listPriority: boolean) => void;
 };
 
 type Props = {
   children: (props: AppState) => JSX.Element;
 };
 const Container = ({ children }: Props) => {
-  const axios = require('axios');
-  axios
-    .get('https://643ffbecb9e6d064be04a18a.mockapi.io/todoList')
-    .then((res: any) => {
-      console.log(res.data);
-    })
-    .catch((error: any) => {
-      console.log(error);
-    });
+  const mockApiUrl = 'https://643ffbecb9e6d064be04a18a.mockapi.io/todoList';
+  // const [todoLists, setTodoLists] = useState([
+  //   {
+  //     id: 1,
+  //     listTitle: 'title 1',
+  //     topPriority: false,
+  //     todoItems: [
+  //       {
+  //         itemId: 1,
+  //         itemTitle: 'item 1',
+  //         itemDescription:
+  //           'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
+  //         completed: false,
+  //         deadlineDate: '2023-04-23',
+  //         deadlineTime: '22:15',
+  //       },
+  //       {
+  //         itemId: 2,
+  //         itemTitle: 'item 2',
+  //         itemDescription: 'this is description',
+  //         completed: false,
+  //         deadlineDate: '2023-04-24',
+  //         deadlineTime: '20:10',
+  //       },
+  //       {
+  //         itemId: 3,
+  //         itemTitle: 'item 3',
+  //         itemDescription: 'this is description',
+  //         completed: true,
+  //         deadlineDate: '2023-04-25',
+  //         deadlineTime: '8:23',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     listTitle: 'title 2',
+  //     topPriority: true,
+  //     todoItems: [
+  //       {
+  //         itemId: 1,
+  //         itemTitle: 'item 1',
+  //         itemDescription:
+  //           'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
+  //         completed: true,
+  //         deadlineDate: '2023-04-26',
+  //         deadlineTime: '18:23',
+  //       },
+  //       {
+  //         itemId: 2,
+  //         itemTitle: 'item 2',
+  //         itemDescription: 'this is description 2',
+  //         completed: false,
+  //         deadlineDate: '2023-04-23',
+  //         deadlineTime: '12:53',
+  //       },
+  //       {
+  //         itemId: 3,
+  //         itemTitle: 'item 3',
+  //         itemDescription: 'this is description 3',
+  //         completed: true,
+  //         deadlineDate: '2023-04-25',
+  //         deadlineTime: '18:45',
+  //       },
+  //     ],
+  //   },
+  // ]);
+  const [todoLists, setTodoLists] = useState([]);
 
-  const [todoLists, setTodoLists] = useState([
-    {
-      id: 1,
-      listTitle: 'title 1',
-      topPriority: false,
-      todoItems: [
-        {
-          itemId: 1,
-          itemTitle: 'item 1',
-          itemDescription:
-            'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
-          completed: false,
-          deadlineDate: '2023-04-23',
-          deadlineTime: '22:15',
-        },
-        {
-          itemId: 2,
-          itemTitle: 'item 2',
-          itemDescription: 'this is description',
-          completed: false,
-          deadlineDate: '2023-04-24',
-          deadlineTime: '20:10',
-        },
-        {
-          itemId: 3,
-          itemTitle: 'item 3',
-          itemDescription: 'this is description',
-          completed: true,
-          deadlineDate: '2023-04-25',
-          deadlineTime: '8:23',
-        },
-      ],
-    },
-    {
-      id: 2,
-      listTitle: 'title 2',
-      topPriority: true,
-      todoItems: [
-        {
-          itemId: 1,
-          itemTitle: 'item 1',
-          itemDescription:
-            'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
-          completed: true,
-          deadlineDate: '2023-04-26',
-          deadlineTime: '18:23',
-        },
-        {
-          itemId: 2,
-          itemTitle: 'item 2',
-          itemDescription: 'this is description 2',
-          completed: false,
-          deadlineDate: '2023-04-23',
-          deadlineTime: '12:53',
-        },
-        {
-          itemId: 3,
-          itemTitle: 'item 3',
-          itemDescription: 'this is description 3',
-          completed: true,
-          deadlineDate: '2023-04-25',
-          deadlineTime: '18:45',
-        },
-      ],
-    },
-  ]);
+  const getData = () => {
+    axios
+      .get('https://643ffbecb9e6d064be04a18a.mockapi.io/todoList')
+      .then((res: any) => {
+        // console.log(res.data);
+        setTodoLists(res.data);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleAddTodoList = (
     newListTitle: string,
@@ -134,18 +145,26 @@ const Container = ({ children }: Props) => {
       itemTitle: newItemTitle,
       itemDescription: newDescriptionTitle,
       completed: false,
-      deadlineDate: deadlineDate,
-      deadlineTime: deadlineTime,
+      deadlineDate:
+        deadlineTime === ''
+          ? deadlineDate + 'T' + '23:59:00.000Z'
+          : deadlineDate + 'T' + deadlineTime + ':00.000Z',
     };
-    setTodoLists(prevTodoLists => [
-      ...prevTodoLists,
-      {
-        id: prevTodoLists.length + 1,
+    axios
+      .post(mockApiUrl, {
         listTitle: newListTitle,
         topPriority: false,
-        todoItems: [newTodoItem],
-      },
-    ]);
+      })
+      .then(res => {
+        console.log(res.data);
+        axios
+          .post(mockApiUrl + '/' + res.data.id + '/todoitem', {
+            ...newTodoItem,
+          })
+          .then(res => {
+            getData();
+          });
+      });
   };
 
   const handleAddTodoItem = (
@@ -155,70 +174,64 @@ const Container = ({ children }: Props) => {
     deadlineDate: string,
     deadlineTime: string
   ) => {
-    setTodoLists(prevTodoLists => {
-      return prevTodoLists.map(todoList => {
-        if (todoList.id === listId) {
-          return {
-            ...todoList,
-            todoItems: [
-              ...todoList.todoItems,
-              {
-                itemId: todoList.todoItems.length + 1,
-                itemTitle: newTodoItemTitle,
-                itemDescription: newTodoItemDescription,
-                completed: false,
-                deadlineDate: deadlineDate,
-                deadlineTime: deadlineTime,
-              },
-            ],
-          };
-        }
-        return todoList;
+    const newTodoItem = {
+      itemTitle: newTodoItemTitle,
+      itemDescription: newTodoItemDescription,
+      completed: false,
+      deadlineDate:
+        deadlineTime === ''
+          ? deadlineDate + 'T' + '23:59:00.000Z'
+          : deadlineDate + 'T' + deadlineTime + ':00.000Z',
+    };
+    axios
+      .post(mockApiUrl + '/' + listId + '/todoitem', {
+        ...newTodoItem,
+      })
+      .then(res => {
+        getData();
       });
-    });
   };
-  const handleItemComplete = (listId: number, todoItemId: number) => {
-    setTodoLists(prevTodoLists => {
-      return prevTodoLists.map(todoList => {
-        if (todoList.id === listId) {
-          return {
-            ...todoList,
-            todoItems: todoList.todoItems.map(todoItem => {
-              if (todoItem.itemId === todoItemId) {
-                return {
-                  ...todoItem,
-                  completed: !todoItem.completed,
-                };
-              }
-              return todoItem;
-            }),
-          };
-        }
-        return todoList;
+  const handleItemComplete = (
+    listId: number,
+    todoItemId: number,
+    itemCompleted: boolean
+  ) => {
+    axios
+      .put(mockApiUrl + '/' + listId + '/todoitem' + '/' + todoItemId, {
+        completed: !itemCompleted,
+      })
+      .then(res => {
+        getData();
       });
-    });
   };
 
   const handleListDelete = (listId: number) => {
-    setTodoLists(prevTodoLists => {
-      return prevTodoLists.filter(todoList => {
-        return todoList.id !== listId;
-      });
+    todoLists.map((todoList: any) => {
+      if (todoList.id === listId) {
+        todoList.todoItems.map((todoItem: any) => {
+          axios
+            .delete(mockApiUrl + '/' + listId + '/todoitem/' + todoItem.itemId)
+            .catch(error => {
+              axios.delete(
+                mockApiUrl + '/' + listId + '/todoitem/' + todoItem.itemId
+              );
+            });
+        });
+      }
+    });
+    axios.delete(mockApiUrl + '/' + listId).then(res => {
+      getData();
     });
   };
 
   const handleEditTodoTitle = (listId: number, editedTodoTitle: string) => {
-    setTodoLists(prevTodoLists => {
-      return prevTodoLists.map(todoList => {
-        if (todoList.id === listId) {
-          return {
-            ...todoList,
-            listTitle: editedTodoTitle,
-          };
-        }
-        return todoList;
+    axios
+      .put(mockApiUrl + '/' + listId, {
+        listTitle: editedTodoTitle,
+      })
+      .then(res => {
+        getData();
       });
-    });
   };
 
   const handleEditTodoItem = (
@@ -227,42 +240,24 @@ const Container = ({ children }: Props) => {
     editedItemTitle: string,
     editedItemDescription: string
   ) => {
-    setTodoLists(prevTodoLists => {
-      return prevTodoLists.map(todoList => {
-        if (todoList.id === listId) {
-          return {
-            ...todoList,
-            todoItems: todoList.todoItems.map(todoItem => {
-              if (todoItem.itemId === itemId) {
-                return {
-                  ...todoItem,
-                  itemTitle: editedItemTitle,
-                  itemDescription: editedItemDescription,
-                };
-              }
-
-              return todoItem;
-            }),
-          };
-        }
-
-        return todoList;
+    axios
+      .put(mockApiUrl + '/' + listId + '/todoitem/' + itemId, {
+        itemTitle: editedItemTitle,
+        itemDescription: editedItemDescription,
+      })
+      .then(res => {
+        getData();
       });
-    });
   };
 
-  const handleListPriorityChange = (listId: number) => {
-    setTodoLists(prevLists => {
-      return prevLists.map(todoList => {
-        if (todoList.id === listId) {
-          return {
-            ...todoList,
-            topPriority: !todoList.topPriority,
-          };
-        }
-        return todoList;
+  const handleListPriorityChange = (listId: number, listPriority: boolean) => {
+    axios
+      .put(mockApiUrl + '/' + listId, {
+        topPriority: !listPriority,
+      })
+      .then(res => {
+        getData();
       });
-    });
   };
 
   const appState: AppState = {

@@ -32,7 +32,7 @@ const TodoHeader = ({ todoList }: Props) => {
           viewBox='0 0 64 64'
           enable-background='new 0 0 64 64'
           xmlSpace='preserve'
-          onClick={() => changeListPriority(todoList.id)}
+          onClick={() => changeListPriority(todoList.id, todoList.topPriority)}
         >
           <g>
             <path

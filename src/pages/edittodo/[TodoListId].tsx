@@ -8,8 +8,6 @@ import EditListTitle from './EditListTitle';
 
 const EditTodo = () => {
   const { todoLists, editListTitle } = useAppContainer();
-
-  const [inputValue, setInputValue] = useState('');
   const [editOption, setEditOption] = useState('title');
   const [todoToEdit, setTodoToEdit] = useState<any>([]);
 
@@ -22,13 +20,12 @@ const EditTodo = () => {
   useEffect(() => {
     if (todoLists) {
       todoLists.map(todo => {
-        if (todo.id === Number(id)) {
+        if (todo.id === Number(router.query.TodoListId)) {
           setTodoToEdit(todo);
         }
       });
     }
   }, [todoLists]);
-
 
   return (
     <main className='flex min-h-screen flex-col items-center p-5'>
@@ -62,7 +59,7 @@ const EditTodo = () => {
         </button>
       </div>
       {editOption === 'title' ? (
-       <EditListTitle todoToEdit={todoToEdit} />
+       <EditListTitle id={id} todoToEdit={todoToEdit} />
       ) : (
         <EditListItem todoToEdit={todoToEdit} />
       )}
