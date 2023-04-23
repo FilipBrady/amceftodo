@@ -29,7 +29,7 @@ const UserProfileDashboard = () => {
 
   return (
     <div>
-      <div className='bg-white w-10/12 mx-auto h-fit my-2 px-3 py-4 rounded-lg shadow-xl text-center flex sm:flex-row justify-between sm:items-end items-center mb-5 flex-col'>
+      <div className='bg-white w-10/12 lg:w-7/12 mx-auto h-fit my-2 px-3 py-4 rounded-lg shadow-xl text-center flex sm:flex-row justify-between sm:items-end items-center mb-5 flex-col'>
         <div className=' '>
           <div className='w-24 rounded-full'>
             <svg

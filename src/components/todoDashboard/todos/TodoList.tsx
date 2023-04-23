@@ -11,7 +11,11 @@ const TodoList = () => {
   const [filter, setFilter] = useState('all');
   const [searchTitle, setSearchTitle] = useState('');
   const [searchType, setSearchType] = useState(false);
-  const filteredData = todoLists
+  const topPriorotyFirst = todoLists.sort(
+    (firstList: any, secondList: any) =>
+      secondList.topPriority - firstList.topPriority
+  );
+  const filteredData = topPriorotyFirst
     .map((todoList: any) => ({
       ...todoList,
       todoItems: todoList.todoItems.filter((todoItem: any) => {
@@ -47,6 +51,7 @@ const TodoList = () => {
         );
       }
     });
+  console.log(topPriorotyFirst);
 
   return (
     <div>
@@ -65,10 +70,11 @@ const TodoList = () => {
               <div className='bg-white w-96 my-2 px-2 py-3 rounded-lg shadow-xl text-center'>
                 <TodoHeader key={todoList.id} todoList={todoList} />
                 {todoList.todoItems.map((todoItem: any) => (
-                  <div key={todoItem.id}>
+                  <div key={todoItem.itemId}>
                     <TodoItem todoItem={todoItem} todoList={todoList} />
                   </div>
                 ))}
+
                 <label htmlFor={`addTodoList${todoList.id}`} className='btn'>
                   Add Todo Item
                 </label>
