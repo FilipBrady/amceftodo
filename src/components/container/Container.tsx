@@ -80,7 +80,7 @@ const Container = ({ children }: Props) => {
           .post(mockApiUrl + '/' + res.data.id + '/todoitem', {
             ...newTodoItem,
           })
-          .then(res => {
+          .then(() => {
             getData();
           });
       });
@@ -104,7 +104,7 @@ const Container = ({ children }: Props) => {
       .post(mockApiUrl + '/' + listId + '/todoitem', {
         ...newTodoItem,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
@@ -146,7 +146,7 @@ const Container = ({ children }: Props) => {
       .put(mockApiUrl + '/' + listId, {
         listTitle: editedTodoTitle,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
@@ -162,7 +162,7 @@ const Container = ({ children }: Props) => {
         itemTitle: editedItemTitle,
         itemDescription: editedItemDescription,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
@@ -172,7 +172,7 @@ const Container = ({ children }: Props) => {
       .put(mockApiUrl + '/' + listId, {
         topPriority: !listPriority,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
