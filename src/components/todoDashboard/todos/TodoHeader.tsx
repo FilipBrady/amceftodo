@@ -1,6 +1,5 @@
 import { useAppContainer } from '@/components/container/Context';
 import Link from 'next/link';
-import { useState } from 'react';
 
 type Props = {
   todoList: {
@@ -8,10 +7,11 @@ type Props = {
     listTitle: string;
     topPriority: boolean;
     todoItems: {
-      id: number;
+      itemId: number;
       itemTitle: string;
       itemDescription: string;
       completed: boolean;
+      deadlineDate: string;
     }[];
   };
 };
@@ -30,7 +30,7 @@ const TodoHeader = ({ todoList }: Props) => {
           width='25px'
           height='25px'
           viewBox='0 0 64 64'
-          enable-background='new 0 0 64 64'
+          enableBackground='new 0 0 64 64'
           xmlSpace='preserve'
           onClick={() => changeListPriority(todoList.id, todoList.topPriority)}
         >

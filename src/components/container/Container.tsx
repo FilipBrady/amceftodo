@@ -1,20 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Provider } from './Context';
 import axios from 'axios';
+import { todoLists } from '../data/todoList';
 export type AppState = {
-  todoLists: {
-    id: number;
-    listTitle: string;
-    topPriority: boolean;
-    todoItems: {
-      itemId: number;
-      itemTitle: string;
-      itemDescription: string;
-      completed: boolean;
-      deadlineDate: string;
-      deadlineTime: string;
-    }[];
-  }[];
+  todoLists: todoLists;
   addTodoList: (
     newListTitle: string,
     newItemTitle: string,
@@ -50,79 +39,12 @@ type Props = {
 };
 const Container = ({ children }: Props) => {
   const mockApiUrl = 'https://643ffbecb9e6d064be04a18a.mockapi.io/todoList';
-  // const [todoLists, setTodoLists] = useState([
-  //   {
-  //     id: 1,
-  //     listTitle: 'title 1',
-  //     topPriority: false,
-  //     todoItems: [
-  //       {
-  //         itemId: 1,
-  //         itemTitle: 'item 1',
-  //         itemDescription:
-  //           'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
-  //         completed: false,
-  //         deadlineDate: '2023-04-23',
-  //         deadlineTime: '22:15',
-  //       },
-  //       {
-  //         itemId: 2,
-  //         itemTitle: 'item 2',
-  //         itemDescription: 'this is description',
-  //         completed: false,
-  //         deadlineDate: '2023-04-24',
-  //         deadlineTime: '20:10',
-  //       },
-  //       {
-  //         itemId: 3,
-  //         itemTitle: 'item 3',
-  //         itemDescription: 'this is description',
-  //         completed: true,
-  //         deadlineDate: '2023-04-25',
-  //         deadlineTime: '8:23',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     listTitle: 'title 2',
-  //     topPriority: true,
-  //     todoItems: [
-  //       {
-  //         itemId: 1,
-  //         itemTitle: 'item 1',
-  //         itemDescription:
-  //           'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
-  //         completed: true,
-  //         deadlineDate: '2023-04-26',
-  //         deadlineTime: '18:23',
-  //       },
-  //       {
-  //         itemId: 2,
-  //         itemTitle: 'item 2',
-  //         itemDescription: 'this is description 2',
-  //         completed: false,
-  //         deadlineDate: '2023-04-23',
-  //         deadlineTime: '12:53',
-  //       },
-  //       {
-  //         itemId: 3,
-  //         itemTitle: 'item 3',
-  //         itemDescription: 'this is description 3',
-  //         completed: true,
-  //         deadlineDate: '2023-04-25',
-  //         deadlineTime: '18:45',
-  //       },
-  //     ],
-  //   },
-  // ]);
-  const [todoLists, setTodoLists] = useState([]);
+  const [todoLists, setTodoLists] = useState<todoLists>([]);
 
   const getData = () => {
     axios
       .get('https://643ffbecb9e6d064be04a18a.mockapi.io/todoList')
       .then((res: any) => {
-        // console.log(res.data);
         setTodoLists(res.data);
       })
       .catch((error: any) => {
@@ -146,9 +68,7 @@ const Container = ({ children }: Props) => {
       itemDescription: newDescriptionTitle,
       completed: false,
       deadlineDate:
-        deadlineTime === ''
-          ? deadlineDate + 'T' + '23:59:00.000Z'
-          : deadlineDate + 'T' + deadlineTime + ':00.000Z',
+        new Date(`${deadlineDate} ${deadlineTime}`).getTime() / 1000,
     };
     axios
       .post(mockApiUrl, {
@@ -156,7 +76,6 @@ const Container = ({ children }: Props) => {
         topPriority: false,
       })
       .then(res => {
-        console.log(res.data);
         axios
           .post(mockApiUrl + '/' + res.data.id + '/todoitem', {
             ...newTodoItem,
@@ -179,9 +98,7 @@ const Container = ({ children }: Props) => {
       itemDescription: newTodoItemDescription,
       completed: false,
       deadlineDate:
-        deadlineTime === ''
-          ? deadlineDate + 'T' + '23:59:00.000Z'
-          : deadlineDate + 'T' + deadlineTime + ':00.000Z',
+        new Date(`${deadlineDate} ${deadlineTime}`).getTime() / 1000,
     };
     axios
       .post(mockApiUrl + '/' + listId + '/todoitem', {

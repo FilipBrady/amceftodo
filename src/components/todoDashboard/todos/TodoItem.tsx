@@ -1,37 +1,30 @@
 import { useAppContainer } from '@/components/container/Context';
-import { useEffect, useState } from 'react';
+import { todoItem, todoList } from '@/components/data/todoList';
+import { useState } from 'react';
 
 type Props = {
-  todoList: {
-    id: number;
-    listTitle: string;
-    todoItems: {
-      itemId: number;
-      itemTitle: string;
-      itemDescription: string;
-      completed: boolean;
-      deadlineDate: string;
-      deadlineTime: string;
-    }[];
-  };
-  todoItem: {
-    itemId: number;
-    itemTitle: string;
-    itemDescription: string;
-    completed: boolean;
-    deadlineDate: string;
-    deadlineTime: string;
-  };
+  todoList: todoList;
+  todoItem: todoItem;
 };
 const TodoItem = ({ todoItem, todoList }: Props) => {
   const { switchComplete } = useAppContainer();
   const [isCompleted, setIsCompleted] = useState(todoItem.completed);
   const [isItemHovered, setIsItemHovered] = useState(false);
-  const deadlineDay = new Date(todoItem.deadlineDate).getDate();
-  const deadlineMonth = new Date(todoItem.deadlineDate).getMonth();
-  const deadlineYear = new Date(todoItem.deadlineDate).getFullYear();
-  const deadlineHour = new Date(todoItem.deadlineDate).getHours();
-  const deadlineMinutes = new Date(todoItem.deadlineDate).getMinutes();
+
+  const listDeadline = () => {
+    const timestamp = todoItem.deadlineDate;
+    const date = new Date(Number(timestamp) * 1000);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${day.toString().padStart(2, '0')}-${month
+      .toString()
+      .padStart(2, '0')}-${year} ${hours.toString().padStart(2, '1')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
+  };
 
   return (
     <div
@@ -51,13 +44,11 @@ const TodoItem = ({ todoItem, todoList }: Props) => {
         </div>
         {isItemHovered ? (
           <div>
-            <div className='text-xs font-light'>{todoItem.itemDescription}</div>
+            <div className='text-xs font-normal'>
+              {todoItem.itemDescription}
+            </div>
             <div className='text-xs font-semibold'>
-              Deadline: {deadlineDay}/{deadlineMonth}/{deadlineYear},{' '}
-              {deadlineHour}:
-              {deadlineMinutes.toString().length === 1
-                ? '0' + deadlineMinutes
-                : deadlineMinutes}
+              Deadline: {listDeadline()}
             </div>
           </div>
         ) : (
