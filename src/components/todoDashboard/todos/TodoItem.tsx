@@ -27,9 +27,11 @@ const TodoItem = ({ todoItem, todoList }: Props) => {
   const { switchComplete } = useAppContainer();
   const [isCompleted, setIsCompleted] = useState(todoItem.completed);
   const [isItemHovered, setIsItemHovered] = useState(false);
-  const deadlineDay = Number(todoItem.deadlineDate.slice(8, 10));
-  const deadlineMonth = Number(todoItem.deadlineDate.slice(5, 7));
-  const deadlineYear = Number(todoItem.deadlineDate.slice(0, 4));
+  const deadlineDay = new Date(todoItem.deadlineDate).getDate();
+  const deadlineMonth = new Date(todoItem.deadlineDate).getMonth();
+  const deadlineYear = new Date(todoItem.deadlineDate).getFullYear();
+  const deadlineHour = new Date(todoItem.deadlineDate).getHours();
+  const deadlineMinutes = new Date(todoItem.deadlineDate).getMinutes();
 
   return (
     <div
@@ -38,13 +40,24 @@ const TodoItem = ({ todoItem, todoList }: Props) => {
       onMouseLeave={() => setIsItemHovered(false)}
     >
       <div>
-        <div className='text-md font-bold'>{todoItem.itemTitle}</div>
+        <div
+          className={
+            todoItem.completed
+              ? 'line-through text-md font-bold'
+              : 'text-md font-bold'
+          }
+        >
+          {todoItem.itemTitle}
+        </div>
         {isItemHovered ? (
           <div>
             <div className='text-xs font-light'>{todoItem.itemDescription}</div>
             <div className='text-xs font-semibold'>
               Deadline: {deadlineDay}/{deadlineMonth}/{deadlineYear},{' '}
-              {todoItem.deadlineTime}
+              {deadlineHour}:
+              {deadlineMinutes.toString().length === 1
+                ? '0' + deadlineMinutes
+                : deadlineMinutes}
             </div>
           </div>
         ) : (
@@ -57,7 +70,7 @@ const TodoItem = ({ todoItem, todoList }: Props) => {
           className='toggle toggle-success toggle-sm'
           checked={isCompleted}
           onChange={() => {
-            switchComplete(todoList.id, todoItem.itemId);
+            switchComplete(todoList.id, todoItem.itemId, todoItem.completed);
             setIsCompleted(!isCompleted);
           }}
         />

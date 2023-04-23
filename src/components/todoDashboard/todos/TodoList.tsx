@@ -51,7 +51,6 @@ const TodoList = () => {
         );
       }
     });
-  console.log(topPriorotyFirst);
 
   return (
     <div>
@@ -65,10 +64,10 @@ const TodoList = () => {
       <div className='flex flex-row flex-wrap justify-center items-start gap-4 my-2'>
         {filteredData.map(todoList => {
           return (
-            <div className='indicator'>
+            <div key={todoList.id} className='indicator'>
               <TodoIndicator todoList={todoList} />
               <div className='bg-white w-96 my-2 px-2 py-3 rounded-lg shadow-xl text-center'>
-                <TodoHeader key={todoList.id} todoList={todoList} />
+                <TodoHeader key={todoList.d} todoList={todoList} />
                 {todoList.todoItems.map((todoItem: any) => (
                   <div key={todoItem.itemId}>
                     <TodoItem todoItem={todoItem} todoList={todoList} />

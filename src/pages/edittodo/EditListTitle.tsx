@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 type Props = {
   todoToEdit: any;
+  id: string
 };
-const EditListTitle = ({ todoToEdit }: Props) => {
+const EditListTitle = ({ todoToEdit,  id}: Props) => {
   const {
     register,
     handleSubmit,
@@ -16,9 +17,8 @@ const EditListTitle = ({ todoToEdit }: Props) => {
 
   const { editListTitle } = useAppContainer();
   function handleInputSubmit(event: any) {
-    editListTitle(todoToEdit.id, event.title);
+    editListTitle(Number(id), event.title);
     router.push('/');
-    console.log(event);
   }
 
   return (
