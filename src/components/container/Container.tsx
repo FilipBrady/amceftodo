@@ -5,11 +5,14 @@ export type AppState = {
   todoLists: {
     id: number;
     listTitle: string;
+    topPriority: boolean;
     todoItems: {
-      id: number;
+      itemId: number;
       itemTitle: string;
       itemDescription: string;
       completed: boolean;
+      deadlineDate: string;
+      deadlineTime: string;
     }[];
   }[];
   addTodoList: (
@@ -35,6 +38,7 @@ export type AppState = {
     editedItemTitle: string,
     editedItemDescription: string
   ) => void;
+  changeListPriority: (listId: number) => void;
 };
 
 type Props = {
@@ -42,6 +46,15 @@ type Props = {
 };
 const Container = ({ children }: Props) => {
   const axios = require('axios');
+  axios
+    .get('https://643ffbecb9e6d064be04a18a.mockapi.io/todoList')
+    .then((res: any) => {
+      console.log(res.data);
+    })
+    .catch((error: any) => {
+      console.log(error);
+    });
+
   const [todoLists, setTodoLists] = useState([
     {
       id: 1,
@@ -49,7 +62,7 @@ const Container = ({ children }: Props) => {
       topPriority: false,
       todoItems: [
         {
-          id: 1,
+          itemId: 1,
           itemTitle: 'item 1',
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
@@ -58,7 +71,7 @@ const Container = ({ children }: Props) => {
           deadlineTime: '22:15',
         },
         {
-          id: 2,
+          itemId: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description',
           completed: false,
@@ -66,7 +79,7 @@ const Container = ({ children }: Props) => {
           deadlineTime: '20:10',
         },
         {
-          id: 3,
+          itemId: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description',
           completed: true,
@@ -81,7 +94,7 @@ const Container = ({ children }: Props) => {
       topPriority: true,
       todoItems: [
         {
-          id: 1,
+          itemId: 1,
           itemTitle: 'item 1',
           itemDescription:
             'this is description this is description this is description this is description this is description this is description this is description this is description this is description ',
@@ -90,7 +103,7 @@ const Container = ({ children }: Props) => {
           deadlineTime: '18:23',
         },
         {
-          id: 2,
+          itemId: 2,
           itemTitle: 'item 2',
           itemDescription: 'this is description 2',
           completed: false,
@@ -98,7 +111,7 @@ const Container = ({ children }: Props) => {
           deadlineTime: '12:53',
         },
         {
-          id: 3,
+          itemId: 3,
           itemTitle: 'item 3',
           itemDescription: 'this is description 3',
           completed: true,
@@ -117,7 +130,7 @@ const Container = ({ children }: Props) => {
     deadlineTime: string
   ) => {
     const newTodoItem = {
-      id: 1,
+      itemId: 1,
       itemTitle: newItemTitle,
       itemDescription: newDescriptionTitle,
       completed: false,
@@ -150,7 +163,7 @@ const Container = ({ children }: Props) => {
             todoItems: [
               ...todoList.todoItems,
               {
-                id: todoList.todoItems.length + 1,
+                itemId: todoList.todoItems.length + 1,
                 itemTitle: newTodoItemTitle,
                 itemDescription: newTodoItemDescription,
                 completed: false,
@@ -171,7 +184,7 @@ const Container = ({ children }: Props) => {
           return {
             ...todoList,
             todoItems: todoList.todoItems.map(todoItem => {
-              if (todoItem.id === todoItemId) {
+              if (todoItem.itemId === todoItemId) {
                 return {
                   ...todoItem,
                   completed: !todoItem.completed,
@@ -220,7 +233,7 @@ const Container = ({ children }: Props) => {
           return {
             ...todoList,
             todoItems: todoList.todoItems.map(todoItem => {
-              if (todoItem.id === itemId) {
+              if (todoItem.itemId === itemId) {
                 return {
                   ...todoItem,
                   itemTitle: editedItemTitle,
@@ -238,6 +251,20 @@ const Container = ({ children }: Props) => {
     });
   };
 
+  const handleListPriorityChange = (listId: number) => {
+    setTodoLists(prevLists => {
+      return prevLists.map(todoList => {
+        if (todoList.id === listId) {
+          return {
+            ...todoList,
+            topPriority: !todoList.topPriority,
+          };
+        }
+        return todoList;
+      });
+    });
+  };
+
   const appState: AppState = {
     todoLists: todoLists,
     addTodoList: handleAddTodoList,
@@ -246,6 +273,7 @@ const Container = ({ children }: Props) => {
     deleteList: handleListDelete,
     editListTitle: handleEditTodoTitle,
     editTodoItem: handleEditTodoItem,
+    changeListPriority: handleListPriorityChange,
   };
 
   return <Provider value={appState}>{children(appState)}</Provider>;

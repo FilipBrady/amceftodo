@@ -6,7 +6,7 @@ type Props = {
     id: number;
     listTitle: string;
     todoItems: {
-      id: number;
+      itemId: number;
       itemTitle: string;
       itemDescription: string;
       completed: boolean;
@@ -15,7 +15,7 @@ type Props = {
     }[];
   };
   todoItem: {
-    id: number;
+    itemId: number;
     itemTitle: string;
     itemDescription: string;
     completed: boolean;
@@ -57,7 +57,7 @@ const TodoItem = ({ todoItem, todoList }: Props) => {
           className='toggle toggle-success toggle-sm'
           checked={isCompleted}
           onChange={() => {
-            switchComplete(todoList.id, todoItem.id);
+            switchComplete(todoList.id, todoItem.itemId);
             setIsCompleted(!isCompleted);
           }}
         />
