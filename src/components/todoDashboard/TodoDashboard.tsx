@@ -1,4 +1,3 @@
-import AddToDoList from './addingTodos/AddTodoList';
 import TodoList from './todos/TodoList';
 
 const TodoDashboard = () => {

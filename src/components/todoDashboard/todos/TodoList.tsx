@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import AddToDoItem from '../addingTodos/AddTodoItem';
 import TodoHeader from './TodoHeader';
 import TodoItem from './TodoItem';
@@ -77,7 +77,6 @@ const TodoList = () => {
                 <label htmlFor={`addTodoList${todoList.id}`} className='btn'>
                   Add Todo Item
                 </label>
-
                 <input
                   type='checkbox'
                   id={`addTodoList${todoList.id}`}
