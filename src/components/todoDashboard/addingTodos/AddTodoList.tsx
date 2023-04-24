@@ -31,7 +31,7 @@ const AddToDoList = () => {
         onSubmit={handleSubmit(data => handleListCreating(data))}
       >
         <label className='label flex flex-col justify-start items-start w-3/5'>
-          <span className='label-text ms-2 z-20'>List Title</span>
+          <span className='label-text text-white ms-2 z-20'>List Title</span>
           <input
             type='text'
             {...register('title', {
@@ -64,7 +64,9 @@ const AddToDoList = () => {
         {todoTitle.length >= 4 && (
           <div className='w-full flex flex-col items-center'>
             <label className='label flex flex-col justify-start items-start w-3/5'>
-              <span className='label-text  ms-2 z-20'>Item Title</span>
+              <span className='label-text text-white  ms-2 z-20'>
+                Item Title
+              </span>
               <input
                 type='text'
                 {...register('itemTitle', {
@@ -95,7 +97,9 @@ const AddToDoList = () => {
             )}
 
             <label className='label flex flex-col justify-start items-start w-3/5'>
-              <span className='label-text  ms-2 z-20'>Item description</span>
+              <span className='label-text text-white  ms-2 z-20'>
+                Item description
+              </span>
               <textarea
                 rows={3}
                 {...register('itemDescription', {
@@ -124,7 +128,9 @@ const AddToDoList = () => {
               </div>
             )}
             <label className='label flex flex-col justify-start items-start w-3/5'>
-              <span className='label-text ms-2 z-20'>Item Deadline</span>
+              <span className='label-text text-white ms-2 z-20'>
+                Item Deadline
+              </span>
               <input
                 type='date'
                 {...register('date', {
@@ -143,7 +149,9 @@ const AddToDoList = () => {
               </div>
             )}
             <label className='label flex flex-col justify-start items-start w-3/5'>
-              <span className='label-text ms-2 z-20'>Item Deadline TIme</span>
+              <span className='label-text text-white ms-2 z-20'>
+                Item Deadline TIme
+              </span>
               <input
                 type='time'
                 {...register('time')}

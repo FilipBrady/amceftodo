@@ -13,7 +13,7 @@ const AddToDoItem = ({ todo }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm();
   const router = useRouter();
 
@@ -24,7 +24,7 @@ const AddToDoItem = ({ todo }: Props) => {
       date: data.date,
       time: data.time,
     });
-    reset()
+    reset();
     router.push('/');
   };
 
@@ -35,7 +35,7 @@ const AddToDoItem = ({ todo }: Props) => {
         onSubmit={handleSubmit(data => handleListCreating(data))}
       >
         <label className='label flex flex-col justify-start items-start w-3/5 '>
-          <span className='label-text ms-2 z-20'>Todo Title</span>
+          <span className='label-text text-white ms-2 z-20'>Todo Title</span>
           <input
             type='text'
             {...register('title', {
@@ -64,7 +64,9 @@ const AddToDoItem = ({ todo }: Props) => {
           </div>
         )}
         <label className='label flex flex-col justify-start items-start w-3/5'>
-          <span className='label-text ms-2 z-20'>Item description</span>
+          <span className='label-text text-white ms-2 z-20'>
+            Item description
+          </span>
           <textarea
             rows={3}
             {...register('itemDescription', {
@@ -93,7 +95,7 @@ const AddToDoItem = ({ todo }: Props) => {
           </div>
         )}
         <label className='label flex flex-col justify-start items-start w-3/5'>
-          <span className='label-text ms-2 z-20'>Item Deadline</span>
+          <span className='label-text text-white ms-2 z-20'>Item Deadline</span>
           <input
             type='date'
             {...register('date', {
@@ -112,7 +114,9 @@ const AddToDoItem = ({ todo }: Props) => {
           </div>
         )}
         <label className='label flex flex-col justify-start items-start w-3/5'>
-          <span className='label-text ms-2 z-20'>Item Deadline Time</span>
+          <span className='label-text text-white ms-2 z-20'>
+            Item Deadline Time
+          </span>
           <input
             type='time'
             {...register('time')}

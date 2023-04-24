@@ -30,7 +30,7 @@ const UserProfileDashboard = () => {
 
   return (
     <div className='bg-white w-11/12 mx-auto lg:w-7/12 h-fit my-2 px-3 py-4 rounded-lg shadow-xl text-center flex sm:flex-row justify-between sm:items-end  mb-5 flex-col'>
-      <div>
+      <div className='mx-auto sm:mx-0'>
         <div className='w-24 rounded-full'>
           <Image src={avatarSvg} alt='user Avatar' />
         </div>
@@ -72,7 +72,7 @@ const UserProfileDashboard = () => {
             </div>
           </div>
         </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row mx-auto'>
           <div className='me-1'>{getCurrentDate('/')}</div>
           <svg
             xmlns='http://www.w3.org/2000/svg'
