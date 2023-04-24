@@ -60,7 +60,6 @@ const TodoList = () => {
         setSearchTitle={setSearchTitle}
         setSearchType={setSearchType}
       />
-
       <div className='flex flex-row flex-wrap justify-center items-start gap-4 my-2 mx-3 w-full'>
         {filteredData.map((todoList: todoList) => {
           return (
