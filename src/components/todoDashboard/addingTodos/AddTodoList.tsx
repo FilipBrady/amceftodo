@@ -9,6 +9,7 @@ const AddToDoList = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const { addTodoList } = useAppContainer();
   const [todoTitle, setTodoTitle] = useState('');
@@ -18,6 +19,8 @@ const AddToDoList = () => {
       date: data.date,
       time: data.time,
     });
+    reset();
+
     router.push('/');
   };
 

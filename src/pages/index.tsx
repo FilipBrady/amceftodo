@@ -3,8 +3,10 @@ import UserProfileDashboard from '@/components/userProfileSection/UserProfileDas
 
 export default function Home() {
   return (
-    <main className='flex min-h-screen md:w-full flex-col text-black absolute'>
-      <UserProfileDashboard />
+    <main className='flex min-h-screen  flex-col text-black absolute '>
+      <div className='w-screen flex flex-col items-center mx-auto'>
+        <UserProfileDashboard />
+      </div>
       <TodoDashboard />
     </main>
   );

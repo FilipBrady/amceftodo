@@ -13,6 +13,7 @@ const AddToDoItem = ({ todo }: Props) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm();
   const router = useRouter();
 
@@ -23,7 +24,7 @@ const AddToDoItem = ({ todo }: Props) => {
       date: data.date,
       time: data.time,
     });
-
+    reset()
     router.push('/');
   };
 

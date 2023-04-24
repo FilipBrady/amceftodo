@@ -68,13 +68,13 @@ const Container = ({ children }: Props) => {
         new Date(`${deadline.date} ${deadline.time}`).getTime() / 1000,
     };
     axios
-      .post(`${BASE_URL}/todoList}`, {
+      .post(`${BASE_URL}/todoList`, {
         listTitle: listTitle,
         topPriority: false,
       })
-      .then(res => {
+      .then((res) => {
         axios
-          .post(`${BASE_URL}/${res.data.id}todoitem`, {
+          .post(`${BASE_URL}/todoList/${res.data.id}/todoitem`, {
             ...newTodoItem,
           })
           .then(() => {
