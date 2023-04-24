@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useAppContainer } from '@/components/container/Context';
 import { useRouter } from 'next/router';
-import { todoList } from '@/components/data/todoList';
+import { todoList } from '@/types/todoList';
+import svgOptions from '@/components/components/svgOptions';
 
 type Props = {
   todo: todoList;
@@ -18,13 +19,10 @@ const AddToDoItem = ({ todo }: Props) => {
   const { addTodoItem } = useAppContainer();
 
   const handleListCreating = (data: any) => {
-    addTodoItem(
-      todo.id,
-      data.title,
-      data.itemDescription,
-      data.date,
-      data.time
-    );
+    addTodoItem(todo.id, data.title, data.itemDescription, {
+      date: data.date,
+      time: data.time,
+    });
 
     router.push('/');
   };
@@ -47,22 +45,11 @@ const AddToDoItem = ({ todo }: Props) => {
             className='input input-bordered input-info w-full max-w-xs'
           />
         </label>
+
         {errors.title?.type === 'required' && (
           <div className='alert alert-warning shadow-lg w-fit mt-0'>
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='stroke-current flex-shrink-0 h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
+              {svgOptions({ svgPicture: 'error' })}
               <span>{errors.title.message?.toString()}</span>
             </div>
           </div>
@@ -70,19 +57,7 @@ const AddToDoItem = ({ todo }: Props) => {
         {errors.title?.type === 'minLength' && (
           <div className='alert alert-warning shadow-lg w-fit my-1'>
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='stroke-current flex-shrink-0 h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
+              {svgOptions({ svgPicture: 'error' })}
               <span>Minimum length is 4 letters</span>
             </div>
           </div>
@@ -103,19 +78,7 @@ const AddToDoItem = ({ todo }: Props) => {
         {errors.itemDescription?.type === 'required' && (
           <div className='alert alert-warning shadow-lg w-fit mt-0'>
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='stroke-current flex-shrink-0 h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
+              {svgOptions({ svgPicture: 'error' })}
               <span>{errors.itemDescription.message?.toString()}</span>
             </div>
           </div>
@@ -123,19 +86,7 @@ const AddToDoItem = ({ todo }: Props) => {
         {errors.itemDescription?.type === 'minLength' && (
           <div className='alert alert-warning shadow-lg w-fit my-1'>
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='stroke-current flex-shrink-0 h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
+              {svgOptions({ svgPicture: 'error' })}
               <span>Minimum length is 4 letters</span>
             </div>
           </div>
@@ -154,19 +105,7 @@ const AddToDoItem = ({ todo }: Props) => {
         {errors.date?.type === 'required' && (
           <div className='alert alert-warning shadow-lg w-fit mt-0'>
             <div>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='stroke-current flex-shrink-0 h-6 w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
-                />
-              </svg>
+              {svgOptions({ svgPicture: 'error' })}
               <span>{errors.date.message?.toString()}</span>
             </div>
           </div>

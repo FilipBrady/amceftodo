@@ -5,7 +5,7 @@ import TodoItem from './TodoItem';
 import { useAppContainer } from '@/components/container/Context';
 import TodoFilter from './components/TodoFilter';
 import TodoIndicator from './components/TodoIndicator';
-
+import { todoList } from '@/types/todoList';
 const TodoList = () => {
   const { todoLists } = useAppContainer();
   const [filter, setFilter] = useState('all');
@@ -53,7 +53,7 @@ const TodoList = () => {
     });
 
   return (
-    <div>
+    <div className='inline-block'>
       <TodoFilter
         setFilter={setFilter}
         filter={filter}
@@ -61,13 +61,13 @@ const TodoList = () => {
         setSearchType={setSearchType}
       />
 
-      <div className='flex flex-row flex-wrap justify-center items-start gap-4 my-2'>
-        {filteredData.map(todoList => {
+      <div className='flex flex-row flex-wrap justify-center items-start gap-4 my-2 mx-3'>
+        {filteredData.map((todoList: todoList) => {
           return (
             <div key={todoList.id} className='indicator'>
               <TodoIndicator todoList={todoList} />
               <div className='bg-white w-96 my-2 px-2 py-3 rounded-lg shadow-xl text-center'>
-                <TodoHeader key={todoList.d} todoList={todoList} />
+                <TodoHeader key={todoList.id} todoList={todoList} />
                 {todoList.todoItems.map((todoItem: any) => (
                   <div key={todoItem.itemId}>
                     <TodoItem todoItem={todoItem} todoList={todoList} />
@@ -84,7 +84,9 @@ const TodoList = () => {
                 />
                 <div className='modal'>
                   <div className='modal-box'>
-                    <h3 className='font-bold text-lg'>Add new Todo item.</h3>
+                    <h3 className='font-bold text-lg text-white'>
+                      Add new Todo item.
+                    </h3>
                     <AddToDoItem todo={todoList} />
                     <div className='modal-action'>
                       <label

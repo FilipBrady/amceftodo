@@ -1,5 +1,5 @@
 import { useAppContainer } from '@/components/container/Context';
-import { todoItem, todoList } from '@/components/data/todoList';
+import { todoItem, todoList } from '@/types/todoList';
 import { useState } from 'react';
 
 type Props = {

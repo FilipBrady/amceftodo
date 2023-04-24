@@ -7,9 +7,9 @@ export type todoList = {
 
 export type todoItem = {
   itemId: number;
-    itemTitle: string;
-    itemDescription: string;
-    completed: boolean;
-    deadlineDate: string;
-}
-export type todoLists = todoList[]
+  itemTitle: string;
+  itemDescription: string;
+  completed: boolean;
+  deadlineDate: string;
+};
+export type todoLists = todoList[];

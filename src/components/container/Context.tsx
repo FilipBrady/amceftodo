@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { AppState } from './Container';
 
-
 // @ts-ignore
 const AppContext = React.createContext<AppState>({});
 

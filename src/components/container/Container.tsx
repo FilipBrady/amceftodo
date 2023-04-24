@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Provider } from './Context';
 import axios from 'axios';
-import { todoLists } from '../data/todoList';
+import { todoLists } from '@/types/todoList';
+import { BASE_URL } from '@/constants/constants';
 export type AppState = {
   todoLists: todoLists;
   addTodoList: (
-    newListTitle: string,
-    newItemTitle: string,
-    newDescriptionTitle: string,
-    deadlineDate: string,
-    deadlineTime: string
+    listTitle: string,
+    itemTitle: string,
+    DdscriptionTitle: string,
+    deadline: { date: string; time: string }
   ) => void;
   addTodoItem: (
     listId: number,
     newTodoItemTitle: string,
     newTodoItemDescription: string,
-    deadlineDate: string,
-    deadlineTime: string
+    deadline: { date: string; time: string }
   ) => void;
   switchComplete: (
     listId: number,
-    todoItemId: number,
+    itemId: number,
     itemCompleted: boolean
   ) => void;
   deleteList: (listId: number) => void;
@@ -38,12 +37,11 @@ type Props = {
   children: (props: AppState) => JSX.Element;
 };
 const Container = ({ children }: Props) => {
-  const mockApiUrl = 'https://643ffbecb9e6d064be04a18a.mockapi.io/todoList';
   const [todoLists, setTodoLists] = useState<todoLists>([]);
 
   const getData = () => {
     axios
-      .get('https://643ffbecb9e6d064be04a18a.mockapi.io/todoList')
+      .get(`${BASE_URL}/todoList`)
       .then((res: any) => {
         setTodoLists(res.data);
       })
@@ -56,31 +54,30 @@ const Container = ({ children }: Props) => {
   }, []);
 
   const handleAddTodoList = (
-    newListTitle: string,
-    newItemTitle: string,
-    newDescriptionTitle: string,
-    deadlineDate: string,
-    deadlineTime: string
+    listTitle: string,
+    itemTitle: string,
+    DdscriptionTitle: string,
+    deadline: { date: string; time: string }
   ) => {
     const newTodoItem = {
       itemId: 1,
-      itemTitle: newItemTitle,
-      itemDescription: newDescriptionTitle,
+      itemTitle: itemTitle,
+      itemDescription: DdscriptionTitle,
       completed: false,
       deadlineDate:
-        new Date(`${deadlineDate} ${deadlineTime}`).getTime() / 1000,
+        new Date(`${deadline.date} ${deadline.time}`).getTime() / 1000,
     };
     axios
-      .post(mockApiUrl, {
-        listTitle: newListTitle,
+      .post(`${BASE_URL}/todoList}`, {
+        listTitle: listTitle,
         topPriority: false,
       })
       .then(res => {
         axios
-          .post(mockApiUrl + '/' + res.data.id + '/todoitem', {
+          .post(`${BASE_URL}/${res.data.id}todoitem`, {
             ...newTodoItem,
           })
-          .then(res => {
+          .then(() => {
             getData();
           });
       });
@@ -90,34 +87,33 @@ const Container = ({ children }: Props) => {
     listId: number,
     newTodoItemTitle: string,
     newTodoItemDescription: string,
-    deadlineDate: string,
-    deadlineTime: string
+    deadline: { date: string; time: string }
   ) => {
     const newTodoItem = {
       itemTitle: newTodoItemTitle,
       itemDescription: newTodoItemDescription,
       completed: false,
       deadlineDate:
-        new Date(`${deadlineDate} ${deadlineTime}`).getTime() / 1000,
+        new Date(`${deadline.date} ${deadline.time}`).getTime() / 1000,
     };
     axios
-      .post(mockApiUrl + '/' + listId + '/todoitem', {
+      .post(`${BASE_URL}/todoList/${listId}/todoitem`, {
         ...newTodoItem,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
   const handleItemComplete = (
     listId: number,
-    todoItemId: number,
+    itemId: number,
     itemCompleted: boolean
   ) => {
     axios
-      .put(mockApiUrl + '/' + listId + '/todoitem' + '/' + todoItemId, {
+      .put(`${BASE_URL}/todoList/${listId}/todoitem/${itemId}`, {
         completed: !itemCompleted,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
@@ -127,26 +123,28 @@ const Container = ({ children }: Props) => {
       if (todoList.id === listId) {
         todoList.todoItems.map((todoItem: any) => {
           axios
-            .delete(mockApiUrl + '/' + listId + '/todoitem/' + todoItem.itemId)
+            .delete(
+              `${BASE_URL}/todoList/${listId}/todoitem/${todoItem.itemId}`
+            )
             .catch(error => {
               axios.delete(
-                mockApiUrl + '/' + listId + '/todoitem/' + todoItem.itemId
+                `${BASE_URL}/todoList/${listId}/todoitem/${todoItem.itemId}`
               );
             });
         });
       }
     });
-    axios.delete(mockApiUrl + '/' + listId).then(res => {
+    axios.delete(`${BASE_URL}/todoList/${listId}`).then(() => {
       getData();
     });
   };
 
   const handleEditTodoTitle = (listId: number, editedTodoTitle: string) => {
     axios
-      .put(mockApiUrl + '/' + listId, {
+      .put(`${BASE_URL}/todoList/${listId}`, {
         listTitle: editedTodoTitle,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
@@ -158,21 +156,21 @@ const Container = ({ children }: Props) => {
     editedItemDescription: string
   ) => {
     axios
-      .put(mockApiUrl + '/' + listId + '/todoitem/' + itemId, {
+      .put(`${BASE_URL}/todoList/${listId}/todoitem/${itemId}`, {
         itemTitle: editedItemTitle,
         itemDescription: editedItemDescription,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
 
   const handleListPriorityChange = (listId: number, listPriority: boolean) => {
     axios
-      .put(mockApiUrl + '/' + listId, {
+      .put(`${BASE_URL}/todoList/${listId}`, {
         topPriority: !listPriority,
       })
-      .then(res => {
+      .then(() => {
         getData();
       });
   };
